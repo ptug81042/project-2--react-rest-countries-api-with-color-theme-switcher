@@ -1,6 +1,6 @@
 import React from "react";
 import DetailInfo from "./DetailInfo";
-import { BorderCountries } from "./BorderCountries";
+import BorderCountries from "./BorderCountries";
 import type { Country } from "../../types/country";
 import styles from './CountryDetail.module.css';
 
