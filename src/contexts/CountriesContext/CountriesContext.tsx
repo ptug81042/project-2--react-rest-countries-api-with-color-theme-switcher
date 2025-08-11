@@ -17,7 +17,7 @@ interface CountriesContextType {
     refreshCountries: () => void; // Function to re-fetch data manually
 }
 
-const CountriesContext = createContext<CountriesContextType | undefined>(undefined);
+export const CountriesContext = createContext<CountriesContextType | undefined>(undefined);
 
 interface CountriesProviderProps {
     children: ReactNode;

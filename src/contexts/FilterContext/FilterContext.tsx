@@ -3,7 +3,7 @@ import { createContext, useContext, useState, type ReactNode } from "react";
 
 import type { FilterContextType } from "../../types";
 
-const FilterContext = createContext<FilterContextType | undefined>(undefined);
+export const FilterContext = createContext<FilterContextType | undefined>(undefined);
 
 interface FilterProviderProps {
     children: ReactNode;

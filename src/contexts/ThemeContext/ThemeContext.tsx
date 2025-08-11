@@ -9,7 +9,7 @@ import {
 
 import type { ThemeContextType } from "../../types";
 
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+export const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 interface ThemeProviderProps {
     children: ReactNode;
