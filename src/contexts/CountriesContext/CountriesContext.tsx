@@ -1,10 +1,11 @@
+/* eslint-disable react-refresh/only-export-components */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createContext, useEffect, useState, type ReactNode } from "react";
 import type { Country, CountriesContextType } from "../../types/CountriesContext";
 import { fetchAllCountries } from "../../utils/api";
 import { formatPopulation, getCapitalString } from "../../utils/format";
 
-const CountriesContext = createContext<CountriesContextType | undefined>(undefined);
+export const CountriesContext = createContext<CountriesContextType | undefined>(undefined);
 
 interface CountriesProviderProps {
     children: ReactNode;
@@ -59,6 +60,3 @@ export const CountriesProvider = ({ children }: CountriesProviderProps) => {
         </CountriesContext.Provider>
     );
 };
-
-// Export the context for usage in custom hooks
-export { CountriesContext };
