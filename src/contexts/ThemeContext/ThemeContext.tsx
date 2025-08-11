@@ -1,19 +1,33 @@
-/* eslint-disable react-refresh/only-export-components */
-import React, { createContext, useState, useCallback } from "react";
-import type { Theme, ThemeContextType } from "../../types/ThemeContext";
+import { createContext, useState, useEffect, type ReactNode } from "react";
+import type { ThemeContextType, Theme } from "../../types/ThemeContext";
 
-// 1️⃣ Create context
-export const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-// 2️⃣ Provider component
-export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    // Theme state
-    const [theme, setTheme] = useState<Theme>("light");
+interface ThemeProviderProps {
+    children: ReactNode;
+}
 
-    // Function to toggle theme
-    const toggleTheme = useCallback(() => {
-        setTheme((prev) => (prev === "light" ? "dark" : "light"));
-    }, []);
+export const ThemeProvider = ({ children }: ThemeProviderProps) => {
+    // Initialize theme state with localStorage fallback or default 'light'
+    const [theme, setTheme] = useState<Theme>(() => {
+        const storedTheme = localStorage.getItem("app-theme");
+        return (storedTheme === "light" || storedTheme === "dark") ? storedTheme : "light";
+    });
+
+    // Toggle between light and dark themes and persist to localStorage
+    const toggleTheme = () => {
+        setTheme(prev => {
+            const newTheme = prev === "light" ? "dark" : "light";
+            localStorage.setItem("app-theme", newTheme);
+            return newTheme;
+        });
+    };
+
+    // Sync theme to document body class for global CSS theme styles
+    useEffect(() => {
+        document.body.classList.toggle("dark-theme", theme === "dark");
+        document.body.classList.toggle("light-theme", theme === "light");
+    }, [theme]);
 
     return (
         <ThemeContext.Provider value={{ theme, toggleTheme }}>
@@ -21,3 +35,5 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         </ThemeContext.Provider>
     );
 };
+
+export { ThemeContext };
