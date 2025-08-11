@@ -2,7 +2,7 @@
 import { createContext, useEffect, useState, type ReactNode } from "react";
 import type { Country, CountriesContextType } from "../../types/CountriesContext";
 import { fetchAllCountries } from "../../utils/api";
-import { formatPopulation, getCountryName, getCapitalString } from "../../utils/format";
+import { formatPopulation, getCapitalString } from "../../utils/format";
 
 const CountriesContext = createContext<CountriesContextType | undefined>(undefined);
 
@@ -26,7 +26,7 @@ export const CountriesProvider = ({ children }: CountriesProviderProps) => {
             // Format the fetched data to match our Country type and UI needs
             const formattedCountries: Country[] = data.map((c: any) => ({
                 flagUrl: c.flags?.png || "",
-                name: getCountryName(c.name),
+                name: c.name,
                 population: formatPopulation(c.population),
                 region: c.region || "Unknown",
                 capital: getCapitalString(c.capital),
