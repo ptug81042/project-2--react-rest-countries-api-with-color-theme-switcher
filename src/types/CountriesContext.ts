@@ -5,10 +5,13 @@
  */
 export interface Country {
     flagUrl: string;
-    name: string;
-    population: string;
+    name: {
+        common: string;
+        official?: string
+    };
+    population: number;
     region: string;
-    capital: string;
+    capital?: string[];
     code: string;
 }
 
