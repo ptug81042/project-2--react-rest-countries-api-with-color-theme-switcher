@@ -1,19 +1,7 @@
-// Defines types for CountriesContext
+import type { FormattedCountry } from "./FormattedCountry";
 
-/**
- * Represents a country as used in the app
- */
-export interface Country {
-    flagUrl: string;
-    name: {
-        common: string;
-        official?: string
-    };
-    population: number;
-    region: string;
-    capital?: string[];
-    code: string;
-}
+// Simplified, UI-friendly country type
+export type Country = FormattedCountry;
 
 /**
  * Shape of the value provided by countriesContext

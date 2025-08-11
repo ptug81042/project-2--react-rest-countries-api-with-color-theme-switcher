@@ -1,47 +1,56 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-refresh/only-export-components */
-import React, { createContext, useState, useCallback } from "react";
-import type { Country } from "../../types";
-import type { CountriesContextType } from '../../types/CountriesContext'
 
-// 1️⃣ Create the context with an undefined initial value for safety
+import {
+    createContext,
+    useEffect,
+    useState,
+    type ReactNode,
+} from "react";
+import type { FormattedCountry } from "../../types/FormattedCountry";
+import type { CountriesContextType } from "../../types/CountriesContext";
+import { useFetch } from "../../hooks/useFetch";
+import { formatPopulation } from "../../utils/format";
+
 export const CountriesContext = createContext<CountriesContextType | undefined>(undefined);
 
-// 2️⃣ Provider component definition
-export const CountriesProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    // Holds the array of countries
-    const [countries, setCountries] = useState<Country[]>([]);
-    // Tracks loading state
-    const [loading, setLoading] = useState<boolean>(false);
-    // Tracks error messages if fetching fails
-    const [error, setError] = useState<string | null>(null);
+interface CountriesProviderProps {
+    children: ReactNode;
+}
 
-    // Function to fetch or refresh country data
-    const refreshCountries = useCallback(() => {
-        setLoading(true);
-        setError(null);
+/**
+ * CountriesProvider fetches countries from REST Countries API,
+ * formats them, and provides the data to consumer components.
+ */
+export const CountriesProvider = ({ children }: CountriesProviderProps) => {
+    const [countries, setCountries] = useState<FormattedCountry[]>([]);
+    const { data, loading, error, refetch } = useFetch<any[]>(
+        "https://restcountries.com/v3.1/all?fields=name,flags,region,capital,population,cca2"
+    );
 
-        // Simulated fetch — replace with real API call if needed
-        fetch("https://restcountries.com/v3.1/all")
-            .then((res) => res.json())
-            .then((data) => {
-                // Transform data into our Country type
-                const mapped: Country[] = data.map((c: any) => ({
-                    flagUrl: c.flags.svg,
-                    name: c.name.common,
-                    population: c.population.toLocaleString(),
-                    region: c.region,
-                    capital: c.capital?.[0] || "N/A",
-                    code: c.cca3,
-                }));
-                setCountries(mapped);
-            })
-            .catch(() => setError("Failed to load countries"))
-            .finally(() => setLoading(false));
-    }, []);
+    useEffect(() => {
+        if (data) {
+            const formatted = data.map((c) => ({
+                flagUrl: c.flags?.png || "",
+                name: c.name.common,
+                population: formatPopulation(c.population),
+                region: c.region || "Unknown",
+                capital: c.capital?.join(", ") || "N/A",
+                code: c.cca2,
+            }));
+            setCountries(formatted);
+        }
+    }, [data]);
 
     return (
-        <CountriesContext.Provider value={{ countries, loading, error, refreshCountries }}>
+        <CountriesContext.Provider
+            value={{
+                countries,
+                loading,
+                error,
+                refreshCountries: refetch,
+            }}
+        >
             {children}
         </CountriesContext.Provider>
     );
