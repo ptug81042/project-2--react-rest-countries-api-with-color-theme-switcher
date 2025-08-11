@@ -50,7 +50,7 @@ export const CountriesProvider= ({ children }: CountriesProviderProps) => {
             const formatted: Country[] = data.map((c: any) => ({
                 flagUrl: c.flags?.png || "",
                 name: c.name?.common || "Unknown",
-                population: c.population?.toLocalString("en-GB") || "0",
+                population: c.population?.toLocaleString("en-GB") || "0",
                 region: c.region || "Unknown",
                 capital: c.capital?.[0] || "",
                 code: c.cca2,
