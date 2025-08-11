@@ -1,20 +1,18 @@
-/* eslint-disable react-refresh/only-export-components */
-import React, { createContext, useState, useCallback } from "react";
+import { createContext, useState, type ReactNode } from "react";
 import type { FilterContextType } from "../../types/FilterContext";
 
-// 1️⃣ Create context
-export const FilterContext = createContext<FilterContextType | undefined>(undefined);
+const FilterContext = createContext<FilterContextType | undefined>(undefined);
 
-// 2️⃣ Provider component
-export const FilterProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    // Search query state
-    const [search, setSearchState] = useState<string>("");
-    // Region filter state
-    const [region, setRegionState] = useState<string>("");
+interface FilterProviderProps {
+    children: ReactNode;
+}
 
-    // Memoized setters (optional optimization)
-    const setSearch = useCallback((value: string) => setSearchState(value), []);
-    const setRegion = useCallback((value: string) => setRegionState(value), []);
+export const FilterProvider = ({ children }: FilterProviderProps) => {
+    // State for search input string
+    const [search, setSearch] = useState<string>("");
+
+    // State for selected region filter
+    const [region, setRegion] = useState<string>("");
 
     return (
         <FilterContext.Provider value={{ search, region, setSearch, setRegion }}>
@@ -22,3 +20,5 @@ export const FilterProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         </FilterContext.Provider>
     );
 };
+
+export { FilterContext };

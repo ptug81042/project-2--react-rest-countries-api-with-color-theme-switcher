@@ -3,8 +3,8 @@ import type { FilterContextType } from "../../types/FilterContext";
 import { FilterContext } from "./FilterContext";
 
 /**
- * Custom hook to access the FilterContext
- * Throws an error if used outside the FilterProvider
+ * Custom hook to consume FilterContext
+ * Throws error if used outside FilterProvider
  */
 export const useFilter = (): FilterContextType => {
     const context = useContext(FilterContext);
