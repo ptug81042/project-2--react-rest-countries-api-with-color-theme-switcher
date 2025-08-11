@@ -1,13 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useState, type ReactNode } from "react";
 
-// Define the shape of the filter context state and actions
-interface FilterContextType {
-    search: string; // Current search text
-    region: string; // Currently selected region filter
-    setSearch: (search: string) => void; // Setter for search text
-    setRegion: (region: string) => void; // Setter for region filter
-}
+import type { FilterContextType } from "../../types";
 
 const FilterContext = createContext<FilterContextType | undefined>(undefined);
 

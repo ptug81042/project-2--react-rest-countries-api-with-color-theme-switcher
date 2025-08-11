@@ -7,7 +7,7 @@ import {
     useState,
     type ReactNode,
 } from "react";
-import type { Country } from '../../types/country';
+import type { Country } from '../../types';
 
 // Define the shape of the context value
 interface CountriesContextType {

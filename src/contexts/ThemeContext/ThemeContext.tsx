@@ -7,11 +7,7 @@ import {
     type ReactNode,
 } from "react";
 
-// Define the shape of theme context value
-interface ThemeContextType {
-    theme: "light" | "dark"; // Current theme
-    toggleTheme: () => void; // Function to toggle between themes
-}
+import type { ThemeContextType } from "../../types";
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
