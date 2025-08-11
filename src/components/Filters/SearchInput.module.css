@@ -1,0 +1,25 @@
+/* Container input styling */
+.searchInput {
+    width: 100%;
+    max-width: 400px;
+    padding: 0.75rem 1rem;
+    border-radius: 5px;
+    border: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    font-size: 0.95rem;
+    background-color: #fff; /* White background */
+    color: #111; /* Dark text */
+    transition: box-shadow 0.2s ease-in-out;
+}
+
+/* Focus state for better UX */
+.searchInput:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Dark theme override (when body has .dark-mode) */
+body.dark-mode .searchInput {
+    background-color: #2b3945;
+    color: #fff;
+}
