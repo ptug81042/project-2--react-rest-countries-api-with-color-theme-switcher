@@ -1,50 +1,46 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { createContext, useEffect, useState, type ReactNode } from "react";
-import type { Country, CountriesContextType } from "../../types/CountriesContext";
-import { fetchAllCountries } from "../../utils/api";
-import { formatPopulation, getCountryName, getCapitalString } from "../../utils/format";
+/* eslint-disable react-refresh/only-export-components */
 
-const CountriesContext = createContext<CountriesContextType | undefined>(undefined);
+import {
+    createContext,
+    useEffect,
+    useState,
+    type ReactNode,
+} from "react";
+import type { FormattedCountry } from "../../types/FormattedCountry";
+import type { CountriesContextType } from "../../types/CountriesContext";
+import { useFetch } from "../../hooks/useFetch";
+import { formatPopulation } from "../../utils/format";
+
+export const CountriesContext = createContext<CountriesContextType | undefined>(undefined);
 
 interface CountriesProviderProps {
     children: ReactNode;
 }
 
+/**
+ * CountriesProvider fetches countries from REST Countries API,
+ * formats them, and provides the data to consumer components.
+ */
 export const CountriesProvider = ({ children }: CountriesProviderProps) => {
-    const [countries, setCountries] = useState<Country[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
+    const [countries, setCountries] = useState<FormattedCountry[]>([]);
+    const { data, loading, error, refetch } = useFetch<any[]>(
+        "https://restcountries.com/v3.1/all?fields=name,flags,region,capital,population,cca2"
+    );
 
-    // Function to fetch and process countries data
-    const loadCountries = async () => {
-        setLoading(true);
-        setError(null);
-        try {
-            // Call the API utility to fetch all countries
-            const data = await fetchAllCountries();
-
-            // Format the fetched data to match our Country type and UI needs
-            const formattedCountries: Country[] = data.map((c: any) => ({
+    useEffect(() => {
+        if (data) {
+            const formatted = data.map((c) => ({
                 flagUrl: c.flags?.png || "",
-                name: getCountryName(c.name),
+                name: c.name.common,
                 population: formatPopulation(c.population),
                 region: c.region || "Unknown",
-                capital: getCapitalString(c.capital),
+                capital: c.capital?.join(", ") || "N/A",
                 code: c.cca2,
             }));
-
-            setCountries(formattedCountries);
-        } catch (err: any) {
-            setError(err.message || "Failed to fetch countries");
-        } finally {
-            setLoading(false);
+            setCountries(formatted);
         }
-    };
-
-    // Load countries once on mount
-    useEffect(() => {
-        loadCountries();
-    }, []);
+    }, [data]);
 
     return (
         <CountriesContext.Provider
@@ -52,13 +48,10 @@ export const CountriesProvider = ({ children }: CountriesProviderProps) => {
                 countries,
                 loading,
                 error,
-                refreshCountries: loadCountries,
+                refreshCountries: refetch,
             }}
         >
             {children}
         </CountriesContext.Provider>
     );
 };
-
-// Export the context for usage in custom hooks
-export { CountriesContext };
