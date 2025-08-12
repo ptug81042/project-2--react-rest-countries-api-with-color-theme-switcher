@@ -2,7 +2,7 @@ import React, { type ChangeEvent } from "react";
 import styles from './RegionDropdown.module.css';
 
 // Props definition for RegionDropDown
-interface RegionDropDownProps {
+export interface RegionDropdownProps {
     value: string; // Current selected region (e.g., "Africa", "Asia")
     onChange: (value: string) => void; // Callback to update selected region
     options: string[]; // Array of available region names
@@ -14,7 +14,7 @@ interface RegionDropDownProps {
  * - Receives list of options from parent, allowing flexibility.
  * - Minimal internal logic, focusing on rendering and event handling.
  */
-const RegionDropDown: React.FC<RegionDropDownProps> = ({
+const RegionDropdown: React.FC<RegionDropdownProps> = ({
     value,
     onChange,
     options,
@@ -26,7 +26,7 @@ const RegionDropDown: React.FC<RegionDropDownProps> = ({
 
     return (
         <select
-            className={styles.RegionDropDown} // Apply scoped CSS module styles
+            className={styles.RegionDropdown} // Apply scoped CSS module styles
             value={value} // Controlled value from parent
             onChange={handleSelectChange} // Trigger callback on change
             aria-label="Filter by region" // Accessibility label
@@ -41,4 +41,4 @@ const RegionDropDown: React.FC<RegionDropDownProps> = ({
     );
 };
 
-export default RegionDropDown;
+export default RegionDropdown;

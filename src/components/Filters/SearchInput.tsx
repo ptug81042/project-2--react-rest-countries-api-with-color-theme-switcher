@@ -2,7 +2,7 @@ import React, { type ChangeEvent } from "react";
 import styles from "./SearchInput.module.css";
 
 // Props definition for the SearchInput component
-interface SearchInputProps {
+export interface SearchInputProps {
     value: string; // Current state query text
     onChange: (value: string) => void; // Callback to update search query
     placeholder?: string; // Optional placeholder text
