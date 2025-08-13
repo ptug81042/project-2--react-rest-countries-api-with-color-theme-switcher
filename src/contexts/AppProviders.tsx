@@ -1,4 +1,4 @@
-import React, { type ReactNode } from "react";
+import { type ReactNode } from "react";
 import { ThemeProvider } from "./ThemeContext/ThemeContext";
 import { CountriesProvider } from "./CountriesContext/CountriesContext";
 import { FilterProvider } from "./FilterContext/FilterContext";
