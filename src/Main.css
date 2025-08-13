@@ -1,0 +1,292 @@
+/* Define global theme colors and font sizes for consistent styling */
+/* Root-level CSS variables allow easy theming and maintainability */
+:root {
+    /* Dark mode element backgrounds (cards, buttons, etc.) */
+    --Dark-Mode-Elements: hsl(209, 23%, 22%);
+    /* Dark mode body background */
+    --Dark-Mode-Bg: hsl(207, 26%, 17%);
+    /* Light mode primary text color */
+    --Light-Mode-Text: hsl(200, 15%, 8%);
+    /* Lighter text tone used for inputs in light mode */
+    --Light-Mode-Input: hsl(0, 0%, 52%);
+    /* Light mode body background */
+    --Light-Mode-Bg: hsl(0, 0%, 98%);
+    /* Text color used across dark mode and element backgrounds in light mode */
+    --Dark-Mode-Text-and-Light-Mode-Elements: hsl(0, 0%, 100%);
+
+    /* Font size used for homepage item attributes */
+    --fs-homepage-items: 0.875rem;
+    /* Font size used in the detail page text */
+    --fs-detail-page: 1rem;
+}
+
+/* Basic reset to clear default browser styles for a consistent baseline */
+* {
+    margin: 0; /* Remove default spacing */
+    padding: 0; /* Clear inherited spacing */
+    box-sizing: border-box; /* Including padding/border within element width/height */
+}
+
+/* Styles for individual country detail view */
+
+/* Container for entire country detail section */
+.border-countries {
+    display: grid; /* Use CSS Grid layout for flexible column structure */
+    grid-template-columns: 1fr 1fr; /* Create two equal-width columns (flag + info) */
+    gap: 3rem; /* Add spacing between the two columns */
+}
+
+/* Container that holds the detailed information about the country */
+.detail-info-container {
+    display: grid; /* Use grid to organize content inside */
+    grid-template-columns: 1fr 1fr; /* Two-column layout for details like population, region, etc. */
+    gap: 1rem; /* Add spacing between the items in the grid */
+}
+
+/* Style for back button and border country buttons */
+.detail-link {
+    padding: 0.5rem; /* Padding inside the button for better click area */
+    border-radius: 0.3rem; /* Slight rounding on corners for modern feel */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.35); /* Subtle shadow for elevation */
+}
+
+/* Container for the border countries section */
+.border-countries {
+    display: flex; /* Use Flexbox to arrange items in a row */
+    align-items: center; /* Vertically align border country buttons with label */
+    flex-wrap: wrap; /* Allow buttons to wrap onto the next line if needed */
+    gap: 1rem; /* Space between each border country button */
+}
+
+/* Styles for the top bar search and region filter controls */
+.filters {
+    display: flex; /* Arrange children side by side */
+    justify-content: space-between; /* Space between search and dropdown */
+    align-items: center; /* Vertically align items */
+}
+
+.input-field {
+    display: grid; /* Grid layout for icon + input */
+    grid-template-columns: 20px auto; /* 20px icon + full-width input */
+    align-items: center; /* Center vertically */
+    gap: 1rem; /* Space between icon and input */
+    width: 400px;
+    height: 50px;
+    padding-inline: 1.5rem; /* Horizontal inner padding */
+    border-radius: 0.3rem; /* Slighly rounded corners */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.09); /* Subtle elevation effect */
+}
+
+input {
+    background: transparent; /* Match background to container */
+    border: none; /* Remove border */
+    height: 100%; /* Fill container height */
+    font-size: var(--fs-homepage-items); /* Readable font size */
+}
+
+#region {
+    border-radius: 0.3rem; 
+    height: 50px;
+    padding-inline: 1.5rem;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.09); /* Softdropdown shadow */
+    cursor: pointer; /* Show pointer on hover */
+}
+
+/* Country card styles displayed in the homepage list */
+.countries {
+    list-style: none; /* Remove bullet points */
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 cards per row */
+    gap: 2rem; /* Space between cards */
+}
+
+li {
+    border-radius: 0.3rem;
+    overflow: hidden; /* Prevent content overflow */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.09); /* Subtle card shadow */
+}
+
+.info-container {
+    padding: 0 1rem 2rem 1rem; /* Padding below image */
+}
+
+.countries li img {
+    width: 100%; /* Image fills container width */
+    aspect-ratio: 160 / 98; /* Main consistent height ratio */
+}
+
+.info-container h2 {
+    font-size: 1rem;
+    line-height: 3; /* Add space between title and details */
+}
+
+.info-container p {
+    font-size: var(--fs-homepage-items);
+    gap: 0.3rem; /* Space between label and value */
+    line-height: 1.7;
+}
+
+/* Defines main structural layout for header, main content, and sections */
+header {
+    display: flex; /* Enables horizontal layout */
+    justify-content: space-between; /* Pushes content to the edges */
+    align-items: center; /* Vertically centers items */
+    width: 100%; /* Full width top bar */
+    padding: 1.3rem 5rem; /* Padding around header content */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.09); /* Soft header shadow */
+}
+
+main {
+    display: flex; /* Use flexbox for main content */
+    flex-direction: column; /* Align items vertically */
+    gap: 3rem; /* Vertical spacing between sections */
+    padding: 2rem 5rem; /* Inner spacing on mobile or desktop */
+}
+
+section {
+    padding: 0 2rem; /* Horizontal padding in each section */
+}
+
+/* Responsive layout adjustments using media queries */
+
+/* ----------------------------------- */
+/* Medium screens (max-width: 1000px) */
+/* ----------------------------------- */
+@media (max-width: 1000px) {
+    /* Reduce country cards per row from 4 to 3 for medium screens */
+    .countries {
+        grid-template-columns: repeat(3, 1fr); /* Display 3 cards per row */
+    }
+
+    /* Stack flag and detail info vertically instead of side-by-side */
+    .detail-container {
+        grid-template-columns: 1fr; /* Single column layout for better readability */
+    }
+}
+
+/* ----------------------------------- */
+/* Smaller tablets / small screens (max-width: 800px) */
+/* ----------------------------------- */
+@media (max-width: 800px) {
+    /* Reduce horizontal padding in header for smaller screens */
+    header {
+        padding: 1.3rem 1rem; /* Condensed padding to fit narrow width */
+    }
+
+    /* Adjust main content padding for consistency */
+    main {
+        padding: 2rem 1rem; /* Maintain breathing space with narrower sides */
+    }
+
+    /* Reduce cards per row from 3 to 2 for smaller layouts */
+    .countries {
+        grid-template-columns: repeat(2, 1fr); /* Show 2 country cards per row */
+    }
+
+    /* Shrink search input width for limited space */
+    .input-field {
+        width: 300px; /* Fits better in a mobile-width layout */
+    }
+}
+
+/* ----------------------------------- */
+/* Mobile screens (max-width: 600px) */
+/* ----------------------------------- */
+@media (max-width: 600px) {
+    /* Reduce header title font size for small screens */
+    h1 {
+        font-size: 1.1rem; /* Prevent overflow and preserve readability */
+    }
+
+    /* Stack search and dropdown filters vertically */
+    .filters {
+        flex-direction: column; /* Better flow for vertical screen orientation */
+        gap: 3rem; /* Add spacing between filters */
+    }
+
+    /* Input field takes full width on small screens */
+    .input-field {
+        width: 100%; /* Responsive form width */
+    }
+
+    /* Show one country card per row for clean mobile UI */
+    .countries {
+        grid-template-columns: 1fr; /* Stack cards vertically */
+    }
+
+    /* Detail info switches to one column for better stacking */
+    .detail-info-container {
+        grid-template-columns: 1fr; /* Vertical layout for country details */
+    }
+}
+
+/* ----------------------------------- */
+/* Large desktop screens (min-width: 1440px) */
+/* ----------------------------------- */
+@media (min-width: 1440px) {
+    /* Center entire body content and constrain width */
+    body {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Align content centrally */
+    }
+
+    /* Cap main width to avoid orerstretched layouts on large monitors */
+    main {
+        width: 1400px; /* Limit max width for consistent content presentation */
+    }
+}
+
+/* ========================= */
+/* Theme Styles (Dark/Light) */
+/* ========================= */
+
+/* ----------- DARK THEME ----------- */
+body.dark-theme {
+    background-color: var(--Dark-Mode-Bg); /* Apply dark background to entire page */
+    color: var(--Dark-Mode-Text-and-Light-Mode-Elements); /* Use light text for contrast */
+}
+
+/* ----------- LIGHT THEME ----------- */
+body.light-theme {
+    background-color: var(--Light-Mode-Bg); /* Light background for clean appearance */
+    color: var(--Light-Mode-Text); /* Darker text color for readability */
+}
+
+/* ----------- COMPONENTS WITH DARK THEME STYLING ----------- */
+body.dark-theme header,
+body.dark-theme .input-field,
+body.dark-theme li,
+body.dark-theme .detail-link,
+body.dark-theme #region {
+    background-color: var(--Dark-Mode-Elements); /* Apply darker shade to elements */
+    color: var(--Dark-Mode-Text-and-Light-Mode-Elements); /* Maintain light readable text */
+}
+
+/* ----------- COMPONENTS WITH LIGHT THEME STYLING ----------- */
+body.light-theme header,
+body.light-theme .input-field,
+body.light-theme li,
+body.light-theme .detail-link,
+body.light-theme #region {
+    background-color: var(--Dark-Mode-Text-and-Light-Mode-Elements); /* Light card/UI background */
+    color: var(--Light-Mode-Text); /* Use dark text for visibility in light theme */
+}
+
+/* Global font family and base styles for buttons and links */
+* {
+    font-family: "Nunito Sans", sans-serif; /* Typeface used throughout */
+}
+
+a {
+    text-decoration: none; /* Remove underline on links */
+    color: inherit; /* Use present text color */
+}
+
+button {
+    cursor: pointer; /* Show pointer on hover */
+    border: none; /* Remove default border */
+    background: none; /* Transparent background */
+    color: inherit; /* Inherit text color */
+    padding: 0.5rem 1rem; /* Comfortable clickable area */
+}

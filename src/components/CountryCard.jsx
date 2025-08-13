@@ -1,30 +1,24 @@
-import PropTypes from 'prop-types';
-import '../pages/Main.css'; // UPDATED
+import { Link } from "react-router-dom";
+import "../Main.css";
 
-export default function Card(props) {
-    return (
-        <div className={`card-Container ${props.class}`} onClick={props.onClick}>
-            <div className="logo">
-                <img src={props.logo} alt='Logo' />
-            </div>
-            <div className='Country-Info'>
-                <h3>{props.Title}</h3>
-                <ul>
-                    <li>Population: <span>{props.Population.toLocaleString()}</span></li>
-                    <li>Region: <span>{props.Region}</span></li>
-                    <li>Capital: <span>{props.Capital}</span></li>
-                </ul>
-            </div>
+export default function CountryCard({ country }) {
+  return (
+    <li>
+      <Link to={`/info/${country.name.common}`}>
+        <img src={country.flags.png} alt={`${country.name.common} flag`} />
+        <div className="info-container">
+          <h2>{country.name.common}</h2>
+          <p>
+            <strong>Population:</strong> {country.population.toLocaleString()}
+          </p>
+          <p>
+            <strong>Region:</strong> {country.region}
+          </p>
+          <p>
+            <strong>Capital:</strong> {country.capital ? country.capital.join(", ") : "N/A"}
+          </p>
         </div>
-    );
-};
-
-Card.propTypes = {
-    logo: PropTypes.string,
-    Title: PropTypes.string,
-    Population: PropTypes.number,
-    Region: PropTypes.string,
-    Capital: PropTypes.string,
-    class: PropTypes.string,
-    onClick: PropTypes.func,
-};
+      </Link>
+    </li>
+  );
+}

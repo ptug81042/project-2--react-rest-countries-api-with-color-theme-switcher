@@ -1,93 +1,54 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Header from '../components/Header.jsx';
-import Card from '../components/CountryCard.jsx';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import '../pages/Main.css';
+import { useEffect, useState } from "react";
+import CountryCard from "../components/CountryCard";
+import "../Main.css";
 
 export default function Home() {
-  const [darkMode, setDarkMode] = useState(false);
   const [countries, setCountries] = useState([]);
-  const [searchByName, setSearchByName] = useState('');
-  const [selectedRegion, setSelectedRegion] = useState('');
-  const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
-
-  const toggleDarkMode = () => setDarkMode(!darkMode);
+  const [search, setSearch] = useState("");
+  const [region, setRegion] = useState("");
 
   useEffect(() => {
-    async function fetchCountries() {
-      try {
-        const response = await fetch('https://restcountries.com/v2/all');
-        const data = await response.json();
-        setCountries(data);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching countries:', error);
-        setLoading(false);
-      }
-    }
-    fetchCountries();
+    fetch("https://restcountries.com/v3.1/all??fields=name,flags,region,capital,population,cca3")
+      .then((res) => res.json())
+      .then((data) => setCountries(data))
+      .catch((err) => console.error(err));
   }, []);
 
-  const filteredCountries = countries.filter((country) => {
-    const matchesRegion = selectedRegion ? country.region === selectedRegion : true;
-    const matchesSearch = searchByName
-      ? country.name.toLowerCase().includes(searchByName.toLowerCase())
-      : true;
-    return matchesRegion && matchesSearch;
-  });
+  const filtered = countries
+    .filter((c) =>
+      c.name.common.toLowerCase().includes(search.toLowerCase())
+    )
+    .filter((c) => (region ? c.region === region : true));
 
   return (
-    <div className={`HomePage-Container ${darkMode ? 'Dark-Mode-On' : 'Dark-Mode-Off'}`}>
-      <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
-
-      <div className={`Main-Content ${darkMode ? 'Main-DarkMode' : 'Main-DarkMode-Off'}`}>
-        <nav>
-          <div className={`SearchBar ${darkMode ? 'Dark-Mode-On' : 'Dark-Mode-Off'}`}>
-            <FontAwesomeIcon icon={faMagnifyingGlass} className="Search-Icon" />
-            <input
-              type="text"
-              placeholder="Search for a country..."
-              value={searchByName}
-              onChange={(e) => setSearchByName(e.target.value)}
-            />
-          </div>
-
-          <select
-            value={selectedRegion}
-            onChange={(e) => setSelectedRegion(e.target.value)}
-            className={`custom-select ${darkMode ? 'Dark-Mode-On' : 'Dark-Mode-Off'}`}
-          >
-            <option value="">All</option>
-            <option value="Africa">Africa</option>
-            <option value="Americas">Americas</option>
-            <option value="Asia">Asia</option>
-            <option value="Europe">Europe</option>
-            <option value="Oceania">Oceania</option>
-          </select>
-        </nav>
-
-        <div className="Countries-Cards-Section">
-          {loading ? (
-            <p>Loading countries...</p>
-          ) : (
-            filteredCountries.map((country) => (
-              <Card
-                key={country.alpha3Code}
-                logo={country.flags.svg}
-                Title={country.name}
-                Population={country.population}
-                Region={country.region}
-                Capital={country.capital}
-                class={darkMode ? 'Dark-Mode-Cards' : 'Light-Mode-Cards'}
-                onClick={() => navigate(`/info/${country.name}`)}
-              />
-            ))
-          )}
+    <main>
+      <div className="filters">
+        <div className="input-field">
+          <input
+            type="text"
+            placeholder="Search for a country..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
         </div>
+        <select
+          id="region"
+          value={region}
+          onChange={(e) => setRegion(e.target.value)}
+        >
+          <option value="">Filter by Region</option>
+          <option value="Africa">Africa</option>
+          <option value="Americas">Americas</option>
+          <option value="Asia">Asia</option>
+          <option value="Europe">Europe</option>
+          <option value="Oceania">Oceania</option>
+        </select>
       </div>
-    </div>
+      <ul className="countries">
+        {filtered.map((country) => (
+          <CountryCard key={country.cca3} country={country} />
+        ))}
+      </ul>
+    </main>
   );
 }

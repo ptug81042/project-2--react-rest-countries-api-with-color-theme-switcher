@@ -1,86 +1,54 @@
-import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import Header from '../components/Header.jsx';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeftLong } from '@fortawesome/free-solid-svg-icons';
-import '../pages/Main.css';
+import React, { useEffect, useState } from "react";
+import { useParams, Link } from "react-router-dom";
+import "../Main.css";
 
 export default function Info() {
-  const [darkMode, setDarkMode] = useState(false);
-  const [country, setCountry] = useState(null);
-  const [loading, setLoading] = useState(true);
   const { countryN } = useParams();
-
-  const toggleDarkMode = () => setDarkMode(!darkMode);
+  const [country, setCountry] = useState(null);
 
   useEffect(() => {
-    async function fetchCountry() {
-      try {
-        const response = await fetch(`https://restcountries.com/v2/name/${countryN}?fullText=true`);
-        const data = await response.json();
-        setCountry(data[0]);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching country:', error);
-        setLoading(false);
-      }
-    }
-    fetchCountry();
+    fetch(`https://restcountries.com/v3.1/name/${countryN}?fullText=true`)
+      .then((res) => res.json())
+      .then((data) => setCountry(data[0]))
+      .catch((err) => console.error(err));
   }, [countryN]);
 
-  if (loading) return <p style={{ padding: '50px', textAlign: 'center' }}>Loading...</p>;
-  if (!country)
-    return (
-      <div style={{ padding: '50px', textAlign: 'center' }}>
-        <p>Country not found.</p>
-        <Link to="/">Go back</Link>
-      </div>
-    );
+  if (!country) return <div>Loading...</div>;
 
   return (
-    <div className={`Info-Page-Container ${darkMode ? 'Info-Page-Dark-Mode-On' : 'Info-Page-Dark-Mode-Off'}`}>
-      <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
-
-      <main className="Main-content">
-        <Link to="/" className="Go-Back-Button-Container">
-          <button className="Go-Back-Button">
-            <FontAwesomeIcon icon={faArrowLeftLong} /> Back
-          </button>
-        </Link>
-
-        <div className="Country-Flag">
-          <img src={country.flags.svg} alt={country.name} />
-        </div>
-
-        <div className="Country-Information">
-          <h1>{country.name}</h1>
-          <div className="Country-Details">
-            <ul>
-              <li>Native Name: <span>{country.nativeName}</span></li>
-              <li>Population: <span>{country.population.toLocaleString()}</span></li>
-              <li>Region: <span>{country.region}</span></li>
-              <li>Sub Region: <span>{country.subregion}</span></li>
-              <li>Capital: <span>{country.capital}</span></li>
-            </ul>
-            <ul>
-              <li>Top Level Domain: <span>{country.topLevelDomain.join(', ')}</span></li>
-              <li>Currencies: <span>{country.currencies.map(c => c.name).join(', ')}</span></li>
-              <li>Languages: <span>{country.languages.map(l => l.name).join(', ')}</span></li>
-            </ul>
-          </div>
-
-          <div className="BorderCountries-Container">
-            <div className="label-border-countries">Border Countries:</div>
-            <div>
-              {country.borders?.map((code) => (
-                <Link key={code} to={`/info/${code}`}>
-                  <button className="BorderCountry-Button">{code}</button>
-                </Link>
-              )) || <span>No bordering countries</span>}
-            </div>
+    <main>
+      <Link to="/" className="detail-link">
+        ← Back
+      </Link>
+      <section className="border-countries">
+        <img
+          src={country.flags.png}
+          alt={`${country.name.common} flag`}
+          style={{ width: "100%" }}
+        />
+        <div className="detail-info-container">
+          <h2>{country.name.common}</h2>
+          <p>
+            <strong>Population:</strong> {country.population.toLocaleString()}
+          </p>
+          <p>
+            <strong>Region:</strong> {country.region}
+          </p>
+          <p>
+            <strong>Subregion:</strong> {country.subregion}</p>
+          <p>
+            <strong>Capital:</strong> {country.capital ? country.capital.join(", ") : "N/A"}
+          </p>
+          <div className="border-countries">
+            <span>Border Countries:</span>
+            {country.borders?.map((border) => (
+              <Link key={border} to={`/info/${border}`} className="detail-link">
+                {border}
+              </Link>
+            ))}
           </div>
         </div>
-      </main>
-    </div>
+      </section>
+    </main>
   );
 }
