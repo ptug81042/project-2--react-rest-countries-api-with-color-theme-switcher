@@ -24,7 +24,6 @@ export default function Info() {
         <img
           src={country.flags.png}
           alt={`${country.name.common} flag`}
-          style={{ width: "100%" }}
         />
         <div className="detail-info-container">
           <h2>{country.name.common}</h2>

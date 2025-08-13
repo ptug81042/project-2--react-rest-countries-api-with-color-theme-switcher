@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import CountryCard from "../components/CountryCard";
 import "../Main.css";
+import Header from "../components/Header";
 
 export default function Home() {
   const [countries, setCountries] = useState([]);
@@ -8,7 +9,7 @@ export default function Home() {
   const [region, setRegion] = useState("");
 
   useEffect(() => {
-    fetch("https://restcountries.com/v3.1/all??fields=name,flags,region,capital,population,cca3")
+    fetch("https://restcountries.com/v3.1/all?fields=name,flags,region,capital,population,cca3")
       .then((res) => res.json())
       .then((data) => setCountries(data))
       .catch((err) => console.error(err));
@@ -22,6 +23,7 @@ export default function Home() {
 
   return (
     <main>
+      <Header />
       <div className="filters">
         <div className="input-field">
           <input
@@ -29,6 +31,7 @@ export default function Home() {
             placeholder="Search for a country..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
+            className="input-field"
           />
         </div>
         <select
