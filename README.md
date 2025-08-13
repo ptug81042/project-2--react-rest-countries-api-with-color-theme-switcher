@@ -1,6 +1,10 @@
-## Project Reflection — Countries Explorer App
+# Project Reflection — Countries Explorer App
 
 Live Demo on Netlify: https://snazzy-sfogliatella-0d69d3.netlify.app/
+
+Used React + JavaScript, CSS, and the REST Countries API to create a responsive web application that allows users to search, filter, and explore detailed information about countries around the world.
+
+## Overview
 
 Developing the Countries Explorer App was a deeply engaging and instructive experience that allowed me to apply and strengthen my skills in React, CSS, and API integration. My goal was to build a responsive, user-friendly interface that would allow users to search, filter, and explore detailed information about countries around the world. Using **React** and **React Router**, I structured the app to have a homepage listing all countries and individual detail pages for each country. The **Context API** was utilized to implement a global theme toggle, enabling users to switch seamlessly between light and dark modes.
 
@@ -10,7 +14,7 @@ Another challenge involved the **search input box and filter dropdown** on the h
 
 Throughout the project, I gained a stronger understanding of **state management**, **dynamic data rendering**, and **responsive design principles**. I also learned the importance of anticipating edge cases, such as countries with no borders or missing capital data, and handling them gracefully. In the future, I would explore **optimizing API requests**, adding **loading skeletons or animations**, and incorporating **pagination or infinite scrolling** for the homepage to improve performance and usability further.
 
-### Lessons Learned
+## Lessons Learned
 
 - Effective **state management** and careful handling of asynchronous operations are crucial for dynamic web applications.  
 - **Responsive design** is not just about rearranging elements—it requires attention to readability, usability, and accessibility on all screen sizes.  
