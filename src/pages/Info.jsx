@@ -5,11 +5,23 @@ import "../Main.css";
 export default function Info() {
   const { countryN } = useParams();
   const [country, setCountry] = useState(null);
+  const [borderCountries, setBorderCountries] = useState([]);
 
   useEffect(() => {
     fetch(`https://restcountries.com/v3.1/name/${countryN}?fullText=true`)
       .then((res) => res.json())
-      .then((data) => setCountry(data[0]))
+      .then((data) => {
+        setCountry(data[0]);
+        // Fetch border country names if borders exist
+        if (data[0]?.borders?.length) {
+          fetch(`https://restcountries.com/v3.1/alpha?codes=${data[0].borders.join(',')}`)
+            .then(res => res.json())
+            .then(borderData => setBorderCountries(borderData))
+            .catch(err => setBorderCountries([]));
+        } else {
+          setBorderCountries([]);
+        }
+      })
       .catch((err) => console.error(err));
   }, [countryN]);
 
@@ -40,11 +52,18 @@ export default function Info() {
           </p>
           <div className="border-countries">
             <span>Border Countries:</span>
-            {country.borders?.map((border) => (
-              <Link key={border} to={`/info/${border}`} className="detail-link">
-                {border}
-              </Link>
-            ))}
+            {borderCountries.length > 0
+              ? borderCountries.map((borderCountry) => (
+                  <Link
+                    key={borderCountry.cca3}
+                    to={`/info/${borderCountry.name.common}`}
+                    className="detail-link"
+                  >
+                    {borderCountry.name.common}
+                  </Link>
+                ))
+              : <span>N/A</span>
+            }
           </div>
         </div>
       </section>
