@@ -1,21 +1,21 @@
 import PropTypes from 'prop-types';
+import '../pages/Main.css'; // UPDATED
 
 export default function Card(props) {
     return (
         <div className={`card-Container ${props.class}`} onClick={props.onClick}>
-        <div className="logo">
-            <img src={props.logo} alt='Logo' />
+            <div className="logo">
+                <img src={props.logo} alt='Logo' />
+            </div>
+            <div className='Country-Info'>
+                <h3>{props.Title}</h3>
+                <ul>
+                    <li>Population: <span>{props.Population.toLocaleString()}</span></li>
+                    <li>Region: <span>{props.Region}</span></li>
+                    <li>Capital: <span>{props.Capital}</span></li>
+                </ul>
+            </div>
         </div>
-
-        <div className='COuntry-Info'>
-            <h3>{props.Title}</h3>
-            <ul>
-                <li>Population: <span>{props.Population.toLocaleString()}</span></li>
-                <li>Region: <span>{props.Region}</span></li>
-                <li>Capital: <span>{props.Capital}</span></li>
-            </ul>
-        </div>
-    </div>
     );
 };
 
