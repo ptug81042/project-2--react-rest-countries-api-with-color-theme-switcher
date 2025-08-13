@@ -1,6 +1,6 @@
 import React, { type ReactNode } from "react";
 import { ThemeProvider } from "./ThemeContext/ThemeContext";
-import { CountriesProvier } from "./CountriesContext/CountriesContext";
+import { CountriesProvider } from "./CountriesContext/CountriesContext";
 import { FilterProvider } from "./FilterContext/FilterContext";
 
 interface AppProvidersProps {
@@ -16,13 +16,13 @@ export const AppProviders = ({ children }: AppProvidersProps) => {
         // ThemeProvider provides dark/light theme context to descendants
         <ThemeProvider>
             {/* CountriesProvider supplies country data and state */}
-            <CountriesProvier>
+            <CountriesProvider>
                 {/* FilterProvider manages search and region filters */}
                 <FilterProvider>
                     {/* Render all nested children */}
                     {children}
                 </FilterProvider>
-            </CountriesProvier>
+            </CountriesProvider>
         </ThemeProvider>
     );
 };

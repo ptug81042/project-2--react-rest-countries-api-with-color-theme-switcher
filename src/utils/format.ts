@@ -18,7 +18,7 @@ export function formatPopulation(population: number): string {
  * @returns Common country name as a string.
  */
 export function getCountryName(country: Country): string {
-    return country.name.common;
+    return country.name;
 }
 
 /**
@@ -27,5 +27,8 @@ export function getCountryName(country: Country): string {
  * @returns String of capitals or "N/A".
  */
 export function getCapitalString(country: Country): string {
-    return country.capital ? country.capital.join(", ") : "N/A";
+    if (Array.isArray(country.capital)) {
+        return country.capital.length > 0 ? country.capital.join(", ") : "N/A";
+    }
+    return typeof country.capital === "string" && country.capital.length > 0 ? country.capital : "N/A";
 };
