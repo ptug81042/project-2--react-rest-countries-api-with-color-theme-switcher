@@ -1,0 +1,12 @@
+.app-container {
+    min-height: 100vh;
+    background-color: #fafafa; /* light background, adjust per theme if needed */
+    color: #111;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+main {
+    padding: 1rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
